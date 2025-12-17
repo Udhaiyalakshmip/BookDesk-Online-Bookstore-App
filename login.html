@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | BookDesk</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/1.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-page">
+    <div class="container">
+        <a href="index.html" class="auth-home-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="./images/2.png" alt="BookDesk Logo" style="height: 50px; margin-bottom: 1rem;">
+                <h2>Welcome Back</h2>
+                <p>Login to your account to continue</p>
+            </div>
+
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email"
+                        value="udhaiya2002@gmail.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" class="form-control" placeholder="Enter your password"
+                            value="1234567890" required>
+                        <i class="far fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn primary">Login</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+                <div style="margin-top: 1rem; font-size: 0.8rem;">
+                    <a href="#" style="color: var(--gray); font-weight: normal;">Forgot Password?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password Toggle Logic
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        if (togglePassword && password) {
+            togglePassword.addEventListener('click', function (e) {
+                // Toggle type attribute
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+
+                // Toggle eye icon
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+
+        // Login Logic
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            // Basic validation
+            if (!emailInput.value || !passwordInput.value) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                alert('Please enter a valid email address');
+                emailInput.focus();
+                return;
+            }
+
+            // Show loading state
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Logging in...';
+            submitBtn.disabled = true;
+
+            // Simulate login delay
+            setTimeout(() => {
+                // Store user session data
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('userEmail', emailInput.value);
+                sessionStorage.setItem('userName', emailInput.value.split('@')[0]); // Use email username part
+
+                // Success message
+                alert('Login successful! Redirecting...');
+                window.location.href = 'index.html';
+            }, 800);
+        });
+    </script>
+</body>
+
+</html>

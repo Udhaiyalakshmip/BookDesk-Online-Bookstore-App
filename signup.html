@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | BookDesk</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/1.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-page">
+    <div class="container">
+        <a href="index.html" class="auth-home-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="./images/2.png" alt="BookDesk Logo" style="height: 50px; margin-bottom: 1rem;">
+                <h2>Create Account</h2>
+                <p>Join the student book sharing community</p>
+            </div>
+
+            <form class="auth-form" id="signupForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter your name" value="udhaiya"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email"
+                        value="udhaiya2002@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" class="form-control" placeholder="Create a password"
+                            value="1234567890" required>
+                        <i class="far fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirm-password" class="form-control"
+                            placeholder="Confirm your password" value="1234567890" required>
+                        <i class="far fa-eye password-toggle" id="toggleConfirmPassword"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn primary">Sign Up</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password Toggle Logic helper
+        function setupToggle(toggleId, inputId) {
+            const toggle = document.querySelector(toggleId);
+            const input = document.querySelector(inputId);
+
+            if (toggle && input) {
+                toggle.addEventListener('click', function (e) {
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            }
+        }
+
+        setupToggle('#togglePassword', '#password');
+        setupToggle('#toggleConfirmPassword', '#confirm-password');
+
+        // Signup Logic
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            // Validate all fields are filled
+            if (!nameInput.value || !emailInput.value || !passwordInput.value || !confirmPasswordInput.value) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Validate name length
+            if (nameInput.value.trim().length < 2) {
+                alert('Please enter a valid name');
+                nameInput.focus();
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                alert('Please enter a valid email address');
+                emailInput.focus();
+                return;
+            }
+
+            // Password length validation
+            if (passwordInput.value.length < 6) {
+                alert('Password must be at least 6 characters long');
+                passwordInput.focus();
+                return;
+            }
+
+            // Password match validation
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                alert('Passwords do not match! Please try again.');
+                confirmPasswordInput.value = '';
+                confirmPasswordInput.focus();
+                return;
+            }
+
+            // Show loading state
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Creating Account...';
+            submitBtn.disabled = true;
+
+            // Simulate signup delay
+            setTimeout(() => {
+                // Store user session data
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('userEmail', emailInput.value);
+                sessionStorage.setItem('userName', nameInput.value);
+
+                // Success message
+                alert('Account created successfully! Redirecting...');
+                window.location.href = 'index.html';
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Careers | BookDesk</title>
+    <meta name="description"
+        content="Join the BookDesk team and help us revolutionize student textbook sharing. View current job openings." />
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/1.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Internal CSS for Careers Page */
+        .careers-hero {
+            background: linear-gradient(135deg, var(--dark) 0%, #1a1a1a 100%);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .careers-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .careers-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .values-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(91, 124, 153, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .value-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .value-card p {
+            color: var(--gray);
+        }
+
+        .openings-section {
+            padding: 5rem 0;
+            background: var(--light);
+        }
+
+        .job-list {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .job-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .job-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateX(5px);
+        }
+
+        .job-info h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .job-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .job-meta {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-menu">
+                <a href="index.html" class="logo">
+                    <img src="./images/2.png" alt="BookDesk student book-sharing platform logo" class="website-logo" />
+                </a>
+
+                <nav class="nav" id="navMenu" role="navigation">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="careers.html" class="active">Careers</a></li>
+                    </ul>
+                    <form class="search-form" role="search">
+                        <input type="search" placeholder="Search books..." aria-label="Search for books" />
+                        <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+                    </form>
+                </nav>
+
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn primary" aria-label="Login">Login</a>
+                    <a href="signup.html" class="btn secondary" aria-label="Signup">Signup</a>
+                </div>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false"
+                    aria-controls="navMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="careers-hero">
+        <div class="container">
+            <h1>Join Our Mission</h1>
+            <p>Help us revolutionize how students share knowledge. We're looking for passionate individuals to join our
+                growing team.</p>
+            <button class="btn primary large">View Openings</button>
+        </div>
+    </section>
+
+    <!-- Values -->
+    <section class="values-section">
+        <div class="container">
+            <div class="section-header" style="text-align: center;">
+                <h2>Our Values</h2>
+                <p>What drives us every day</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>Accessibility</h3>
+                    <p>We believe knowledge should be accessible to everyone, regardless of their financial situation.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-users"></i></div>
+                    <h3>Community</h3>
+                    <p>We build products that foster connection and collaboration among students.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Innovation</h3>
+                    <p>We're constantly challenging the status quo to create better educational tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Job Openings -->
+    <section class="openings-section">
+        <div class="container">
+            <div class="section-header" style="text-align: center;">
+                <h2>Current Openings</h2>
+            </div>
+            <div class="job-list">
+                <div class="job-card">
+                    <div class="job-info">
+                        <h3>Senior Frontend Developer</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                            <span><i class="fas fa-clock"></i> Full-time</span>
+                        </div>
+                    </div>
+                    <button class="btn secondary small">Apply Now</button>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-info">
+                        <h3>Product Designer (UI/UX)</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> New York</span>
+                            <span><i class="fas fa-clock"></i> Full-time</span>
+                        </div>
+                    </div>
+                    <button class="btn secondary small">Apply Now</button>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-info">
+                        <h3>Community Manager</h3>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> London</span>
+                            <span><i class="fas fa-clock"></i> Part-time</span>
+                        </div>
+                    </div>
+                    <button class="btn secondary small">Apply Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <img src="./images/2.png" alt="BookDesk Logo">
+                <div class="social">
+                    <img src="./images/icon-facebook.svg" alt="Facebook icon">
+                    <img src="./images/icon-youtube.svg" alt="Youtube icon">
+                    <img src="./images/icon-twitter.svg" alt="Twitter icon">
+                    <img src="./images/icon-pinterest.svg" alt="Pinterest icon">
+                    <img src="./images/icon-instagram.svg" alt="Instagram icon">
+                </div>
+            </div>
+            <nav class="footer-nav">
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="#support">Support</a></li>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                </ul>
+            </nav>
+            <div class="footer-cta">
+                <button class="btn primary">Request Invite</button>
+                <p class="copyright">© <span id="year">2024</span> BookDesk. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

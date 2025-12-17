@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookDesk | Student Book Sharing Platform</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/1.png" />
+
+  <!-- Font Awesome CDN (replace with your local if needed) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script>
+    // Check for authentication
+    if (!sessionStorage.getItem('isLoggedIn')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- PDF.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <!-- SEO & Social -->
+  <meta name="description"
+    content="BookDesk: A student platform to borrow, lend, review, and connect over books. Clean UI, local listings, fast signup." />
+  <meta name="keywords"
+    content="BookDesk, book sharing, student platform, borrow books, lend textbooks, book reviews, local exchange" />
+  <meta name="author" content="Udhaiyalakshmi P" />
+</head>
+
+<body>
+  <!-- Header & Navigation -->
+  <header class="header">
+    <div class="container">
+      <div class="logo-menu">
+        <a href="/" class="logo">
+          <img src="./images/2.png" alt="BookDesk student book-sharing platform logo" class="website-logo" />
+        </a>
+
+        <nav class="nav" id="navMenu" role="navigation">
+          <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+          <form class="search-form" role="search">
+            <input type="search" placeholder="Search books..." aria-label="Search for books" />
+            <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+          </form>
+        </nav>
+
+        <div class="auth-buttons">
+          <a href="login.html" class="btn primary" id="loginBtn" aria-label="Login">Login</a>
+          <a href="signup.html" class="btn secondary" id="signupBtn" aria-label="Signup">Signup</a>
+          <a href="profile.html" class="btn text profile-link-desktop"
+            style="display: none; font-size: 1.5rem; color: var(--primary); padding: 5px;" aria-label="Profile">
+            <img src="./images/profile2.png" alt="Profile"
+              style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--primary); vertical-align: middle;">
+          </a>
+        </div>
+
+        <div class="mobile-controls">
+          <a href="profile.html" class="mobile-profile-icon" style="display: none;">
+            <img src="./images/profile2.png" alt="Profile"
+              style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--primary);">
+          </a>
+          <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false"
+            aria-controls="navMenu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Next Generation Book Sharing</h1>
+        <p>
+          Discover, share, review, and connect with students over books. Borrow or lend locally with a clean,
+          community-driven platform.
+        </p>
+        <div class="hero-cta">
+          <button class="btn primary large">Get Started</button>
+          <button class="btn secondary large">Learn More</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="./images/img3.jpg" alt="Students sharing books on mobile" class="phones" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="about">
+    <div class="container">
+      <div class="section-header">
+        <h2>Why Choose BookDesk?</h2>
+        <p>Transform your reading experience with our student-focused book-sharing platform.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <img src="./images/book_sharing.png" alt="Local Book Sharing" loading="lazy" width="100" height="100" />
+          <h3>Local Book Sharing</h3>
+          <p>Borrow or lend textbooks and novels with students nearby.</p>
+        </div>
+        <div class="feature-card">
+          <img src="./images/book discovery.png" alt="Easy Book Discovery" loading="lazy" width="100" height="100" />
+          <h3>Easy Book Discovery</h3>
+          <p>Browse listings, read reviews, and get notified about available books.</p>
+        </div>
+        <div class="feature-card">
+          <img src="./images/book signup.png" alt="Fast Sign-Up" loading="lazy" width="100" height="100" />
+          <h3>Fast Sign-Up</h3>
+          <p>Create your account and start sharing books in minutes.</p>
+        </div>
+        <div class="feature-card">
+          <img src="./images/Open Community.png" alt="Open Community" loading="lazy" width="100" height="100" />
+          <h3>Open Community</h3>
+          <p>Review, discuss, and connect over books with peers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Books -->
+  <section class="latest-books">
+    <div class="container">
+      <h2>Latest Books</h2>
+      <div class="books-grid">
+        <article class="book-card">
+          <img src="./images/atomic.jpg" alt="Atomic Habits by James Clear" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By James Clear</span>
+            <h3>Atomic Habits</h3>
+            <p>Tiny changes, remarkable results. Build good habits.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+        <article class="book-card">
+          <img src="./images/money.jpg" alt="The Psychology of Money by Morgan Housel" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Morgan Housel</span>
+            <h3>The Psychology of Money</h3>
+            <p>Timeless lessons on wealth and happiness.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+        <article class="book-card">
+          <img src="./images/1984.webp" alt="1984 by George Orwell" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By George Orwell</span>
+            <h3>1984</h3>
+            <p>A dystopian classic and cautionary tale.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+        <article class="book-card">
+          <img src="./images/sapiens.webp" alt="Sapiens by Yuval Noah Harari" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Yuval Noah Harari</span>
+            <h3>Sapiens</h3>
+            <p>A brief history of humankind.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+
+        <!-- New Books -->
+        <article class="book-card">
+          <div class="badge favourite">Favourite</div>
+          <img src="./images/The Diary of a Young Girl.jpg" alt="The Diary of a Young Girl" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Anne Frank</span>
+            <h3>The Diary of a Young Girl</h3>
+            <p>The diary of a teenage girl hiding from the Nazis.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <div class="badge best-seller">Best Seller</div>
+          <img src="./images/Deep Work.webp" alt="Deep Work by Cal Newport" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Cal Newport</span>
+            <h3>Deep Work</h3>
+            <p>Rules for focused success in a distracted world.</p>
+            <button class="btn buy small" onclick="handleBuy(3856, 'Deep Work')">Buy for ₹3856</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <img src="./images/Quiet.png" alt="Quiet by Susan Cain" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Susan Cain</span>
+            <h3>Quiet</h3>
+            <p>The Power of Introverts in a World That Can't Stop Talking.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <img src="./images/The-four-agreements.jpg" alt="The Four Agreements" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Don Miguel Ruiz</span>
+            <h3>The Four Agreements</h3>
+            <p>A Practical Guide to Personal Freedom.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <img src="./images/Eric Ries - The Lean Startup.png" alt="The Lean Startup" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Eric Ries</span>
+            <h3>The Lean Startup</h3>
+            <p>How Today's Entrepreneurs Use Continuous Innovation.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <img src="./images/Thinking, Fast and Slow.webp" alt="Thinking, Fast and Slow" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Daniel Kahneman</span>
+            <h3>Thinking, Fast and Slow</h3>
+            <p>The major thoughts on how we make choices.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <img src="./images/Silappadikaram.webp" alt="Silappadikaram" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Ilango Adigal</span>
+            <h3>Silappadikaram</h3>
+            <p>The Tale of an Anklet. An ancient Tamil epic.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <img src="./images/The Bhagavad Gita.jpg" alt="The Bhagavad Gita" loading="lazy" />
+          <div class="book-info">
+            <span class="author">By Vyasa</span>
+            <h3>The Bhagavad Gita</h3>
+            <p>The Song of God. A timeless spiritual classic.</p>
+            <button class="btn primary small">Borrow Now</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon Section -->
+  <section class="latest-books" style="background-color: var(--light-bg); margin-top: 0;">
+    <div class="container">
+      <h2>Upcoming Releases</h2>
+      <div class="books-grid">
+        <article class="book-card">
+          <div class="badge coming-soon">Coming Soon</div>
+          <img src="./images/11.jpg" alt="Harry Potter and the Cursed Child" loading="lazy"
+            style="object-fit: contain; background: #eee;" />
+          <div class="book-info">
+            <span class="author">By J.K. Rowling</span>
+            <h3>Harry Potter & Cursed Child</h3>
+            <p>Parts 1 & 2. The eighth story. Nineteen years later.</p>
+            <button class="btn secondary small" disabled>Release Date: Dec 25</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <div class="badge coming-soon">Coming Soon</div>
+          <img src="./images/8.jpg" alt="Gulliver's Travels" loading="lazy"
+            style="object-fit: contain; background: #eee;" />
+          <div class="book-info">
+            <span class="author">By Jonathan Swift</span>
+            <h3>Gulliver's Travels</h3>
+            <p>A classic edition of the famous satirical novel.</p>
+            <button class="btn secondary small" disabled>Release Date: Jan 01</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <div class="badge coming-soon">Coming Soon</div>
+          <img src="./images/6.jpg" alt="Fantastic Beasts" loading="lazy"
+            style="object-fit: contain; background: #eee;" />
+          <div class="book-info">
+            <span class="author">By J.K. Rowling</span>
+            <h3>Fantastic Beasts</h3>
+            <p>J.K. Rowling's Wizarding World screenplay.</p>
+            <button class="btn secondary small" disabled>Release Date: Jan 15</button>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <div class="badge coming-soon">Coming Soon</div>
+          <img src="./images/the things called love.webp" alt="The Things Called Love" loading="lazy"
+            style="object-fit: contain; background: #eee;" />
+          <div class="book-info">
+            <span class="author">By Tuhin A. Sinha</span>
+            <h3>The Things Called Love</h3>
+            <p>A journey through the complexities of modern relationships.</p>
+            <button class="btn secondary small" disabled>Release Date: Feb 14</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-logo">
+        <!-- <img src="./images/2.png" alt="BookDesk student book-sharing platform logo" class="website-logo" />-->
+        <img src="./images/2.png" alt="BookDesk Logo">
+        <div class="social">
+          <img src="./images/icon-facebook.svg" alt="Facebook icon">
+          <img src="./images/icon-youtube.svg" alt="Youtube icon">
+          <img src="./images/icon-twitter.svg" alt="Twitter icon">
+          <img src="./images/icon-pinterest.svg" alt="Pinterest icon">
+          <img src="./images/icon-instagram.svg" alt="Instagram icon">
+        </div>
+      </div>
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="#support">Support</a></li>
+          <li><a href="#privacy">Privacy Policy</a></li>
+        </ul>
+      </nav>
+      <div class="footer-cta">
+        <button class="btn primary">Request Invite</button>
+        <p class="copyright">© <span id="year"></span> BookDesk. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Add this before closing body tag -->
+  <!-- PDF Viewer Modal -->
+  <div class="pdf-modal" id="pdfModal">
+    <div class="pdf-modal-content">
+      <div class="pdf-modal-header">
+        <h3 id="pdfTitle">Book PDF Viewer</h3>
+        <div class="pdf-actions">
+          <button id="downloadPdfBtn" class="btn primary small">
+            <i class="fas fa-download"></i> Download
+          </button>
+          <button id="closePdfBtn" class="btn secondary small">
+            <i class="fas fa-times"></i> Close
+          </button>
+        </div>
+      </div>
+      <div class="pdf-modal-body">
+        <div class="pdf-controls">
+          <button id="prevPage" class="pdf-control-btn">
+            <i class="fas fa-chevron-left"></i> Previous
+          </button>
+          <div class="page-info">
+            Page: <span id="pageNum">1</span> of <span id="pageCount">--</span>
+          </div>
+          <button id="nextPage" class="pdf-control-btn">
+            Next <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="pdf-viewer-container">
+          <canvas id="pdfCanvas"></canvas>
+          <div id="pdfLoading" class="pdf-loading">
+            <div class="spinner"></div>
+            <p>Loading PDF...</p>
+          </div>
+        </div>
+        <div class="pdf-zoom-controls">
+          <button id="zoomOut" class="zoom-btn" title="Zoom Out">
+            <i class="fas fa-search-minus"></i>
+          </button>
+          <span id="zoomLevel">100%</span>
+          <button id="zoomIn" class="zoom-btn" title="Zoom In">
+            <i class="fas fa-search-plus"></i>
+          </button>
+          <button id="fitWidth" class="zoom-btn" title="Fit to Width">
+            <i class="fas fa-arrows-alt-h"></i>
+          </button>
+          <button id="fitPage" class="zoom-btn" title="Fit to Page">
+            <i class="fas fa-expand-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add PDF.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  </script>
+  <script src="script.js"></script>
+
+</body>
+
+</html>

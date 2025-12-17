@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile | BookDesk</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/1.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Profile Specific Overrides to match Dashboard Style while keeping Global CSS */
+        .profile-container {
+            display: flex;
+            min-height: 100vh;
+            background: #f6f8fb;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #2c3e50;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            padding: 15px 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.3s;
+            color: #b0bec5;
+        }
+
+        .sidebar li:hover,
+        .sidebar .active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            /* Width of sidebar */
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-header h1 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+        }
+
+        /* Summary Cards */
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .card.borrowed p {
+            color: #27ae60;
+        }
+
+        .card.reading p {
+            color: #e74c3c;
+        }
+
+        .card.favourites p {
+            color: #2980b9;
+        }
+
+        /* Sections */
+        .section-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* History Table */
+        .history-table {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            color: #7f8c8d;
+            font-weight: 600;
+            border-bottom: 2px solid #f1f2f6;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f2f6;
+            color: #2c3e50;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #e8f5e9;
+            color: #27ae60;
+        }
+
+        .status-completed {
+            background: #e3f2fd;
+            color: #2196f3;
+        }
+
+        /* Favourites Grid */
+        .favourites-grid {
+            display: none;
+            /* Hidden by default, toggled via JS */
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .fav-book-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            padding-bottom: 15px;
+        }
+
+        .fav-book-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .fav-book-card h4 {
+            margin: 10px 0 5px;
+            font-size: 1rem;
+            padding: 0 10px;
+        }
+
+        .fav-book-card .btn {
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .sidebar .logo span,
+            .sidebar li span {
+                display: none;
+            }
+
+            .sidebar .logo i {
+                margin: 0 auto;
+                font-size: 1.5rem;
+            }
+
+            .sidebar li {
+                justify-content: center;
+                padding: 15px 10px;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+        }
+
+        /* Mobile Optimization (480px) */
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                height: 60px;
+                bottom: 0;
+                top: auto;
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 0;
+                z-index: 1000;
+                display: flex;
+                /* Ensure flex for horizontal layout */
+            }
+
+            .sidebar .logo {
+                display: none;
+            }
+
+            .sidebar nav {
+                width: 100%;
+            }
+
+            .sidebar ul {
+                flex-direction: row;
+                justify-content: space-around;
+                height: 100%;
+                align-items: center;
+            }
+
+            .sidebar li {
+                margin-bottom: 0;
+                border-radius: 0;
+                padding: 10px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                margin-bottom: 70px;
+                /* Space for bottom nav */
+                padding: 15px;
+            }
+
+            .profile-info-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                margin-top: -50px;
+                gap: 10px;
+            }
+
+            .profile-names h2 {
+                font-size: 1.5rem;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+                /* Stack profile details */
+                padding: 0 20px 20px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+
+        /* Professional Profile Details Styles */
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-banner {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            height: 120px;
+            position: relative;
+        }
+
+        .profile-info-header {
+            padding: 0 40px;
+            margin-top: -70px;
+            /* Adjusted for larger 140px avatar */
+            display: flex;
+            align-items: flex-end;
+            gap: 35px;
+            /* Increased gap to prevent overlap */
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 11;
+            /* Ensure it appears above the banner */
+            background: white;
+            /* White background to cover the banner */
+            padding-top: 70px;
+            /* Add padding at top */
+            border-radius: 20px 20px 0 0;
+            /* Rounded top corners */
+        }
+
+        .profile-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 35px;
+            /* Modern Squircle for professional look */
+            border: 5px solid white;
+            object-fit: contain;
+            /* Ensures full image visibility */
+            object-position: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            background: white;
+            /* White bg for non-square images */
+            position: relative;
+            z-index: 10;
+            flex-shrink: 0;
+            /* Prevent avatar from shrinking */
+        }
+
+        .profile-names {
+            padding-bottom: 25px;
+            /* Aligns better with the bottom of the avatar */
+            flex: 1;
+            /* Take remaining space */
+            min-width: 0;
+            /* Allow text to wrap/ellipsis */
+        }
+
+        .profile-names h2 {
+            margin: 0;
+            font-size: 2rem;
+            /* Slightly larger name */
+            font-weight: 700;
+            color: #2c3e50;
+            word-wrap: break-word;
+            /* Break long names */
+            overflow-wrap: break-word;
+        }
+
+        .profile-names p {
+            margin: 5px 0 0;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* Fixed 2-column grid for better alignment */
+            gap: 30px;
+            padding: 0 40px 40px;
+        }
+
+        .profile-item h4 {
+            color: #95a5a6;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .profile-item p {
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .profile-full-width {
+            grid-column: 1 / -1;
+        }
+
+        .interest-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .interest-badge {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .interest-badge:hover {
+            background: #2196f3;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Author Cards */
+        .author-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .author-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .author-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            background: white;
+            border-color: #b2ebf2;
+        }
+
+        .author-icon {
+            width: 40px;
+            height: 40px;
+            background: #e0f7fa;
+            color: #00bcd4;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .author-info h5 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #2c3e50;
+        }
+
+        .author-info small {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+        }
+
+        /* Settings Styles */
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+        }
+
+        .settings-section {
+            padding: 20px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+        }
+
+        .settings-section h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-section h3 i {
+            color: #3498db;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .setting-item span {
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        .setting-control {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            color: #2c3e50;
+            outline: none;
+        }
+
+        .setting-action {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #2ecc71;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(22px);
+        }
+
+        /* Button Toggles */
+        .setting-toggles {
+            display: flex;
+            background: #f1f1f1;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .setting-toggles button {
+            border: none;
+            background: transparent;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #7f8c8d;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .setting-toggles button.active {
+            background: white;
+            color: #2c3e50;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="index.html" class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>BookDesk</span>
+            </a>
+            <nav>
+                <ul>
+                    <li class="active" onclick="switchTab('dashboard')">
+                        <i class="fas fa-chart-line"></i> <span>Dashboard</span>
+                    </li>
+                    <li onclick="switchTab('profile')">
+                        <i class="fas fa-user"></i> <span>My Profile</span>
+                    </li>
+                    <li onclick="switchTab('my-books')">
+                        <i class="fas fa-book"></i> <span>My Books</span>
+                    </li>
+                    <li onclick="switchTab('favourites')">
+                        <i class="fas fa-heart"></i> <span>Favourites</span>
+                    </li>
+                    <li onclick="switchTab('settings')">
+                        <i class="fas fa-cog"></i> <span>Settings</span>
+                    </li>
+                    <li onclick="logout()" style="margin-top: auto; color: #e74c3c;">
+                        <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="profile-header">
+                <h1 id="welcomeUser">Welcome back!</h1>
+                <div class="header-actions" style="display: flex; align-items: center; gap: 15px;">
+                    <a href="index.html" class="btn primary small"><i class="fas fa-plus"></i> Browse Library</a>
+                    <div class="header-profile-icon">
+                        <img src="./images/profile2.png" alt="User"
+                            style="width: 45px; height: 45px; border-radius: 50%; border: 3px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <div id="dashboard-view">
+                <!-- Summary Cards -->
+                <section class="summary">
+                    <div class="card borrowed">
+                        <h3>Books Borrowed</h3>
+                        <p>12</p>
+                    </div>
+                    <div class="card reading">
+                        <h3>Currently Reading</h3>
+                        <p>2</p>
+                    </div>
+                    <div class="card favourites">
+                        <h3>Favourites</h3>
+                        <p id="favCount">0</p>
+                    </div>
+                </section>
+
+                <!-- History Table -->
+                <section class="history">
+                    <h2 class="section-title">Recent History</h2>
+                    <div class="history-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Author</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyBody">
+                                <tr>
+                                    <td>Atomic Habits</td>
+                                    <td>James Clear</td>
+                                    <td>Oct 20, 2025</td>
+                                    <td><span class="status-badge status-active">Reading</span></td>
+                                </tr>
+                                <tr>
+                                    <td>The Psychology of Money</td>
+                                    <td>Morgan Housel</td>
+                                    <td>Oct 15, 2025</td>
+                                    <td><span class="status-badge status-completed">Returned</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Deep Work</td>
+                                    <td>Cal Newport</td>
+                                    <td>Oct 10, 2025</td>
+                                    <td><span class="status-badge status-completed">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Profile Details View -->
+            <div id="profile-view" style="display: none;">
+                <h2 class="section-title">My Profile</h2>
+
+                <div class="profile-card">
+                    <div class="profile-banner"></div>
+
+                    <div class="profile-info-header">
+                        <img src="./images/profile2.png" alt="Profile" class="profile-avatar">
+                        <div class="profile-names">
+                            <h2 id="profileUserName">Udhaiyalakshmi P</h2>
+                            <p>MBA-HRM Student</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <h4>Age</h4>
+                            <p>23</p>
+                        </div>
+                        <div class="profile-item">
+                            <h4>Date of Birth</h4>
+                            <p>28 May 2004</p>
+                        </div>
+                        <div class="profile-item">
+                            <h4>Designation</h4>
+                            <p>College Student</p>
+                        </div>
+                        <div class="profile-item">
+                            <h4>Contact</h4>
+                            <p>udhaiya2002@gmail.com</p>
+                        </div>
+
+                        <div class="profile-item profile-full-width">
+                            <h4>Book Interests</h4>
+                            <div class="interest-badges">
+                                <span class="interest-badge">Success</span>
+                                <span class="interest-badge">Financial Freedom</span>
+                                <span class="interest-badge">Self Development</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-item profile-full-width">
+                            <h4>Favourite Authors</h4>
+                            <div class="author-grid">
+                                <div class="author-card">
+                                    <div class="author-icon"><i class="fas fa-pen-nib"></i></div>
+                                    <div class="author-info">
+                                        <h5>James Clear</h5>
+                                        <small>Self-Help</small>
+                                    </div>
+                                </div>
+                                <div class="author-card">
+                                    <div class="author-icon"><i class="fas fa-chart-line"></i></div>
+                                    <div class="author-info">
+                                        <h5>Morgan Housel</h5>
+                                        <small>Finance</small>
+                                    </div>
+                                </div>
+                                <div class="author-card">
+                                    <div class="author-icon"><i class="fas fa-brain"></i></div>
+                                    <div class="author-info">
+                                        <h5>Cal Newport</h5>
+                                        <small>Productivity</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favourites View -->
+            <div id="favourites-view" style="display: none;">
+                <h2 class="section-title">My Favourite Books</h2>
+                <div class="favourites-grid" id="favGrid" style="display: grid;">
+                    <!-- Populated by JS -->
+                    <div style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px;">
+                        <i class="far fa-heart" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <p>No favourites yet. Go to the library and click the heart icon!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Books View (New) -->
+            <div id="my-books-view" style="display: none;">
+                <h2 class="section-title">My Books</h2>
+                <div class="profile-card" style="text-align: center; padding: 60px 40px;">
+                    <i class="fas fa-book-reader" style="font-size: 4rem; color: #e0e0e0; margin-bottom: 20px;"></i>
+                    <h3 style="color: #2c3e50; margin-bottom: 10px;">You haven't uploaded any books yet</h3>
+                    <p style="color: #7f8c8d; margin-bottom: 30px;">Share your knowledge with the community by releasing
+                        a book.</p>
+                    <button class="btn primary" onclick="alert('Upload functionality coming soon!')">
+                        <i class="fas fa-upload"></i> Release New Book
+                    </button>
+                </div>
+            </div>
+
+            <!-- Settings View (New) -->
+            <div id="settings-view" style="display: none;">
+                <h2 class="section-title">Settings</h2>
+                <div class="settings-container">
+
+                    <!-- Appearance -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-paint-brush"></i> Appearance</h3>
+                        <div class="setting-item">
+                            <span>Theme</span>
+                            <select class="setting-control">
+                                <option>Light</option>
+                                <option>Dark</option>
+                                <option>Doodle</option>
+                                <option>System</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <span>Font Size</span>
+                            <div class="setting-toggles">
+                                <button>S</button><button class="active">M</button><button>L</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reading & Books -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-book-open"></i> Reading & Books</h3>
+                        <div class="setting-item">
+                            <span>Book Categories</span>
+                            <span class="setting-action">Manage <i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <div class="setting-item">
+                            <span>Language</span>
+                            <select class="setting-control">
+                                <option>English</option>
+                                <option>Tamil</option>
+                                <option>Hindi</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <span>Nearby Books First</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="setting-item">
+                            <span>Auto-Save History</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-bell"></i> Notifications</h3>
+                        <div class="setting-item">
+                            <span>New Books</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="setting-item">
+                            <span>Borrow Updates</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="setting-item">
+                            <span>Due Reminders</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+
+                    </div>
+
+                    <!-- Privacy & Security -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-lock"></i> Privacy & Security</h3>
+                        <div class="setting-item">
+                            <span>Profile Visibility</span>
+                            <select class="setting-control">
+                                <option>Public</option>
+                                <option>Friends Only</option>
+                                <option>Private</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <span>Location Sharing</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="setting-item">
+                            <span>2FA</span>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                        <div class="setting-item">
+                            <span>Block / Report</span>
+                            <span class="setting-action">Manage <i class="fas fa-chevron-right"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Location & Campus -->
+                    <div class="settings-section">
+                        <h3><i class="fas fa-map-marker-alt"></i> Location & Campus</h3>
+                        <div class="setting-item">
+                            <span>Campus / City</span>
+                            <span class="setting-action">Chennai <i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <div class="setting-item">
+                            <span>Distance Filter</span>
+                            <select class="setting-control">
+                                <option>5 km</option>
+                                <option>10 km</option>
+                                <option>25 km</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <span>Verified Users Only</span>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <footer style="margin-top: auto; text-align: center; color: #999; font-size: 0.9rem; padding: 20px;">
+                <p>© 2025 BookDesk Profile. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script> // Profile Page Logic
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Set User Name
+            const userEmail = sessionStorage.getItem('userEmail') || 'User'; // Fallback if we didn't save name properly
+            // Better: If we have pre-filled login inputs, let's assume 'Udhaiya' for now if not set
+            const userName = 'Udhaiya'; // Hardcoded as per user request context "Devaraj" example -> "Udhaiya"
+
+            document.getElementById('welcomeUser').textContent = `Welcome, ${userName}`;
+
+            // 2. Load Favourites
+            updateFavUI();
+        });
+
+        // Load user data on page load
+        window.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            if (!isLoggedIn) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load user data from session
+            const userName = sessionStorage.getItem('userName') || 'User';
+            const userEmail = sessionStorage.getItem('userEmail') || 'user@example.com';
+
+            // Update welcome message
+            document.getElementById('welcomeUser').textContent = `Welcome back, ${userName}!`;
+
+            // Update profile page name in the banner using ID
+            const profileNameElement = document.getElementById('profileUserName');
+            if (profileNameElement) {
+                profileNameElement.textContent = userName;
+                console.log('Profile name updated to:', userName);
+            } else {
+                console.error('Profile name element not found!');
+            }
+
+            // Update profile email in the contact field
+            const contactFields = document.querySelectorAll('.profile-grid .profile-item');
+            contactFields.forEach(item => {
+                const heading = item.querySelector('h4');
+                if (heading && heading.textContent === 'Contact') {
+                    const emailElement = item.querySelector('p');
+                    if (emailElement) {
+                        emailElement.textContent = userEmail;
+                    }
+                }
+            });
+
+            // Update favourites count
+            updateFavUI();
+        });
+
+        function switchTab(tab) {
+            const dashboard = document.getElementById('dashboard-view');
+            const favourites = document.getElementById('favourites-view');
+            const profile = document.getElementById('profile-view');
+            const myBooks = document.getElementById('my-books-view');
+            const settings = document.getElementById('settings-view');
+            const items = document.querySelectorAll('.sidebar li');
+
+            items.forEach(i => i.classList.remove('active'));
+
+            // Hide all
+            dashboard.style.display = 'none';
+            favourites.style.display = 'none';
+            profile.style.display = 'none';
+            myBooks.style.display = 'none';
+            settings.style.display = 'none';
+
+            if (tab === 'dashboard') {
+                dashboard.style.display = 'block';
+                items[0].classList.add('active');
+            } else if (tab === 'profile') {
+                profile.style.display = 'block';
+                items[1].classList.add('active');
+            } else if (tab === 'my-books') {
+                myBooks.style.display = 'block';
+                items[2].classList.add('active');
+            } else if (tab === 'favourites') {
+                favourites.style.display = 'block';
+                items[3].classList.add('active');
+                renderFavourites();
+            } else if (tab === 'settings') {
+                settings.style.display = 'block';
+                items[4].classList.add('active');
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear all session data
+                sessionStorage.removeItem('isLoggedIn');
+                sessionStorage.removeItem('userName');
+                sessionStorage.removeItem('userEmail');
+
+                // Redirect to login page
+                window.location.href = 'login.html';
+            }
+        }
+
+        function updateFavUI() {
+            const favs = JSON.parse(localStorage.getItem('bookDeskFavs') || '[]');
+            document.getElementById('favCount').textContent = favs.length;
+        }
+
+        function renderFavourites() {
+            const favs = JSON.parse(localStorage.getItem('bookDeskFavs') || '[]');
+            const grid = document.getElementById('favGrid');
+
+            if (favs.length === 0) {
+                grid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px;">
+                  <i class="far fa-heart" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                  <p>No favourites yet. Go to the library and click the heart icon!</p>
+              </div>
+            `;
+                return;
+            }
+
+            grid.innerHTML = favs.map(book => `
+            <div class="fav-book-card">
+                <img src="${book.cover}" alt="${book.title}">
+                <h4>${book.title}</h4>
+                <button onclick="removeFav('${book.title}')" class="btn secondary small" style="color: #e74c3c;">Remove</button>
+            </div>
+        `).join('');
+        }
+
+        window.removeFav = function (title) {
+            let favs = JSON.parse(localStorage.getItem('bookDeskFavs') || '[]');
+            favs = favs.filter(b => b.title !== title);
+            localStorage.setItem('bookDeskFavs', JSON.stringify(favs));
+            renderFavourites();
+            updateFavUI();
+        }
+
+            ;
+    </script>
+</body>
+
+</html>

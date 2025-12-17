@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | BookDesk</title>
+    <meta name="description"
+        content="Read the latest insights, book reviews, and community stories from the BookDesk team." />
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/1.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Internal CSS for Blog Page */
+        .blog-header {
+            background: var(--light);
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .blog-header h1 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        /* Featured Article */
+        .featured-section {
+            padding: 3rem 0;
+        }
+
+        .featured-article {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 4rem;
+        }
+
+        .featured-img {
+            height: 100%;
+            min-height: 400px;
+            background: url('./images/atomic.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .featured-content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(91, 124, 153, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            align-self: flex-start;
+        }
+
+        .featured-content h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .meta {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .meta i {
+            margin-right: 0.4rem;
+        }
+
+        .featured-content p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            padding-bottom: 5rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-card-img {
+            height: 200px;
+            width: 100%;
+            object-fit: contain;
+            background-color: var(--light);
+        }
+
+        .blog-card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin: 0.8rem 0;
+            line-height: 1.4;
+        }
+
+        .blog-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            margin-top: auto;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            color: var(--secondary);
+            gap: 0.8rem;
+        }
+
+        @media (max-width: 900px) {
+            .featured-article {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-img {
+                height: 250px;
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-menu">
+                <a href="index.html" class="logo">
+                    <img src="./images/2.png" alt="BookDesk student book-sharing platform logo" class="website-logo" />
+                </a>
+
+                <nav class="nav" id="navMenu" role="navigation">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="blog.html" class="active">Blog</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                    </ul>
+                    <form class="search-form" role="search">
+                        <input type="search" placeholder="Search books..." aria-label="Search for books" />
+                        <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+                    </form>
+                </nav>
+
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn primary" aria-label="Login">Login</a>
+                    <a href="signup.html" class="btn secondary" aria-label="Signup">Signup</a>
+                </div>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false"
+                    aria-controls="navMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Blog Header -->
+    <section class="blog-header">
+        <div class="container">
+            <h1>BookDesk Blog</h1>
+            <p>Insights, book reviews, and community stories.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="featured-section">
+        <div class="container">
+            <!-- Featured Article -->
+            <article class="featured-article">
+                <div class="featured-img" style="background-image: url('./images/img3.jpg');"></div>
+                <div class="featured-content">
+                    <span class="tag">Community Spotlight</span>
+                    <h2>How Sharing Textbooks Saved Students Over ₹40 Lakhs This Semester</h2>
+                    <div class="meta">
+                        <span><i class="far fa-user"></i> Editorial Team</span>
+                        <span><i class="far fa-calendar"></i> Dec 15, 2024</span>
+                    </div>
+                    <p>The rising cost of textbooks has been a barrier for many. See how the BookDesk community came
+                        together to make education accessible for everyone on campus through our peer-to-peer lending
+                        program.</p>
+                    <button class="btn primary">Read Full Story</button>
+                </div>
+            </article>
+
+            <!-- Recent Posts Grid -->
+            <h2 style="margin-bottom: 2rem; color: var(--dark);">Recent Posts</h2>
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <img src="./images/atomic.jpg" alt="Study Habits" class="blog-card-img" loading="lazy">
+                    <div class="blog-card-content">
+                        <span class="tag">Study Tips</span>
+                        <h3>5 Habits of Highly Successful Students</h3>
+                        <p>From time management to effective note-taking, discover the small changes that can lead to
+                            big results in your academic performance.</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <img src="./images/money.jpg" alt="Financial Tips" class="blog-card-img" loading="lazy">
+                    <div class="blog-card-content">
+                        <span class="tag">Finance</span>
+                        <h3>Budgeting 101 for College Students</h3>
+                        <p>Learning to manage your money is just as important as your classes. Here are practical tips
+                            to keep your finances in check.</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <img src="./images/1984.webp" alt="Classic Literature" class="blog-card-img" loading="lazy">
+                    <div class="blog-card-content">
+                        <span class="tag">Book Review</span>
+                        <h3>Why 1984 is More Relevant Than Ever</h3>
+                        <p>A deep dive into George Orwell's classic dystopia and what it can teach us about privacy and
+                            truth in the digital age.</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <img src="./images/2.png" alt="BookDesk Logo">
+                <div class="social">
+                    <img src="./images/icon-facebook.svg" alt="Facebook icon">
+                    <img src="./images/icon-youtube.svg" alt="Youtube icon">
+                    <img src="./images/icon-twitter.svg" alt="Twitter icon">
+                    <img src="./images/icon-pinterest.svg" alt="Pinterest icon">
+                    <img src="./images/icon-instagram.svg" alt="Instagram icon">
+                </div>
+            </div>
+            <nav class="footer-nav">
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="#support">Support</a></li>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                </ul>
+            </nav>
+            <div class="footer-cta">
+                <button class="btn primary">Request Invite</button>
+                <p class="copyright">© <span id="year">2024</span> BookDesk. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
